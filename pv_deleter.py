@@ -1,9 +1,9 @@
 import os
 
-def delete_mp4_files(folder_path):
-    for root, dirs, files in os.walk(folder_path):
+def delete_mp4_files(directory):
+    for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith('.mp4'):
+            if file.endswith(".mp4"):
                 file_path = os.path.join(root, file)
                 try:
                     os.remove(file_path)
@@ -11,6 +11,6 @@ def delete_mp4_files(folder_path):
                 except Exception as e:
                     print(f"Error deleting {file_path}: {e}")
 
-# replace the defalut path to your "levels" folder's path
-folder_path = 'your/folder/path'
-delete_mp4_files(folder_path)
+# modify the path below to your targeted folder
+directory = '/path/to/your/directory'
+delete_mp4_files(directory)
