@@ -1,11 +1,13 @@
-# AstroDX-PV-deleter
-lite Python programs to delete unnecessary files to save storage for AstroDX
+# AstroDX Tools
+lite Python programs for AstroDX
 
-## pv_deleter ##
+## PV Deleter ##
 delete all of the pv.mp4 files in your folder
 
-## difficulties_deleter ##
-delete all the difficulties of easy, basic, and advanced
+## Difficulties Deleter ##
+delete all the difficulties of easy, basic, and advance
 
+## Collections Converter ##
+generate manifest.json file for collection folder
 
 **!!please change the default path to your "levels" folder's path!!**
