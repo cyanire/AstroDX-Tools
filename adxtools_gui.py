@@ -100,7 +100,7 @@ def update_labels():
 
 
 root = tk.Tk()
-root.title("AstroDX Manager")
+root.title("AstroDX Manager - v2.1.0")
 root.geometry("1000x600")
 sv_ttk.set_theme("light")
 
