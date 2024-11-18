@@ -11,10 +11,6 @@ You can read this document in English or 中文. / 你可以选择阅读英文�
 
 ---
 
-## Setup
-
-Before using the tools, **please change the default path to your "levels" folder's path!**
-
 ## Tools
 
 ### 1. **PV Deleter**
