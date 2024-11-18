@@ -16,10 +16,6 @@ You can read this document in English or 中文. / 你可以选择阅读英文�
 
 该仓库包含几个 Python 脚本，旨在帮助管理和整理与 AstroDX 音乐游戏相关的文件。
 
-## 安装
-
-在使用这些工具之前，**请更改默认路径为你的 "levels" 文件夹路径！**
-
 ## 工具
 
 ### 1. **PV 删除器** (PV Deleter)
@@ -32,7 +28,7 @@ You can read this document in English or 中文. / 你可以选择阅读英文�
 
 运行该脚本后，它会清理 `.txt` 文件，删除与 easy、basic 和 advance 难度相关的部分。
 
-### 3. **AstroDX 文件夹整理器**(AstroDX Folder Organizer)
+### 3. **文件夹整理器**(Folder Organizer)
 该脚本帮助整理你的 AstroDX 文件夹结构。
 
 **重要：** 文件夹结构必须遵循以下规则：
