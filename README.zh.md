@@ -39,28 +39,39 @@ You can read this document in English or 中文. / 你可以选择阅读英文�
 - **二级文件夹** 应该是收藏夹（例如，代表不同歌曲分组或类别的文件夹）。
 - **三级文件夹** 应该包含实际的歌曲文件。
 
-该脚本会根据文件夹结构自动将文件移动到适当的 `levels` 和 `collections` 文件夹，并生成必要的 `manifest.json` 文件。
-
-你**不需要**修改脚本中的路径；脚本会在运行时提示你选择文件夹。脚本会自动整理文件，将文件移到 `levels` 和 `collections` 目录中，并为收藏夹生成 `manifest.json` 文件。
-
+该脚本会根据文件夹结构自动将文件移动到适当的 `levels` 和 `collections` 文件夹。
+### 4. **合集转换器** (Collections Converter)
+此脚本用于在指定目录中创建 `manifest.json` 文件。
 ## 如何使用
 
 1. 克隆或下载该仓库到你的本地机器。
 2. 确保你安装了 Python 3.x。
 3. 运行你想使用的脚本，通过终端执行以下命令：
-
+   
    ```bash
    python pv_deleter.py
    ```
 
-   or
    
    ```bash
    python difficulties_deleter.py
    ```
 
-   or
 
    ```bash
-   python astrodx_folder_organizer.py
+   python folder_organizer.py
    ```
+   
+   ```bash
+   python collections_converterr.py
+   ```
+   或者运行 `GUI` 以选择功能 :
+   
+   ```bash
+   python adxtools_gui.py
+   ```
+
+## 许可证
+
+本项目采用 MIT 许可证 - 请参阅 [LICENSE](./LICENSE) 文件以了解详细信息。
+
