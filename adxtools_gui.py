@@ -11,135 +11,164 @@ import ctypes
 
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-def load_sun_valley_theme(root):
-    sv_ttk.set_theme("light")
+languages = {
+    'en': {
+        'choose_directory': 'Choose Path',
+        'start': 'Start',
+        'generate_json': 'Generate JSON',
+        'organize_folders': 'Organize Folders',
+        'delete_difficulties': 'Delete Difficulties',
+        'delete_pv': 'Delete PV Files',
+        'success': 'Processing complete!',
+    },
+    'zh': {
+        'choose_directory': '选择路径',
+        'start': '开始',
+        'generate_json': '生成 JSON',
+        'organize_folders': '整理文件夹',
+        'delete_difficulties': '删除难度',
+        'delete_pv': '删除 PV 文件',
+        'success': '处理完成！',
+    }
+}
+
+current_language = 'zh'
+directory = ""
+tasks = []
+
 
 def log_message(text_widget, message):
     text_widget.insert(tk.END, message + '\n')
     text_widget.see(tk.END)
 
+
 def run_tasks(directory, tasks, text_widget):
-        try:
-            if 'generate_json' in tasks:
-                for folder in os.listdir(directory):
-                    folder_path = os.path.join(directory, folder)
-                    if os.path.isdir(folder_path):
-                        create_manifest(folder_path, text_widget)
-            if 'delete_difficulties' in tasks:
-                process_directory(directory, text_widget)
-            if 'delete_pv' in tasks:
-                delete_mp4_files(directory, text_widget)
-            if 'organize_folders' in tasks:
-                organize_folders(directory, text_widget)
-            log_message(text_widget, languages[current_language]['success'])
-        except Exception as e:
-            log_message(text_widget, f"Error: {str(e)}")
+    try:
+        if 'generate_json' in tasks:
+            for folder in os.listdir(directory):
+                folder_path = os.path.join(directory, folder)
+                if os.path.isdir(folder_path):
+                    create_manifest(folder_path, text_widget)
+        if 'delete_difficulties' in tasks:
+            process_directory(directory, text_widget)
+        if 'delete_pv' in tasks:
+            delete_mp4_files(directory, text_widget)
+        if 'organize_folders' in tasks:
+            organize_folders(directory, text_widget)
+        log_message(text_widget, languages[current_language]['success'])
+    except Exception as e:
+        log_message(text_widget, f"Error: {str(e)}")
 
-languages = {
-    'en': {
-        'choose_directory': 'Choose Directory',
-        'generate_json': 'Generate JSON',
-        'organize_folders': 'Organize Folders',
-        'delete_difficulties': 'Delete Difficulties',
-        'delete_pv': 'Delete PV Files',
-        'error': 'Error',
-        'no_tasks': 'Please select at least one task.',
-        'confirm': 'Confirm Tasks',
-        'success': 'Processing complete!'
-    },
-    'zh': {
-        'choose_directory': '选择目录',
-        'generate_json': '生成 JSON',
-        'organize_folders': '整理文件夹',
-        'delete_difficulties': '删除难度',
-        'delete_pv': '删除 PV 文件',
-        'error': '错误',
-        'no_tasks': '请选择至少一个任务。',
-        'confirm': '确认任务',
-        'success': '处理完成！'
-    }
-}
-current_language = 'en'
 
-def toggle_language(event):
-    global current_language
-    current_language = 'zh' if lang_combobox.get() == '中文' else 'en'
-    update_ui_language()
-
-def update_ui_language():
-    root.title("AstroDX Tools")
-    entry_button.config(text=languages[current_language]['choose_directory'])
-    json_check.config(text=languages[current_language]['generate_json'])
-    organize_check.config(text=languages[current_language]['organize_folders'])
-    difficulty_check.config(text=languages[current_language]['delete_difficulties'])
-    pv_check.config(text=languages[current_language]['delete_pv'])
-    lang_combobox.set("English" if current_language == 'en' else "中文")
-
-def execute_functions():
-    directory = filedialog.askdirectory(title=languages[current_language]['choose_directory'])
+def execute_tasks():
+    global directory, tasks
     if not directory:
+        messagebox.showwarning("Warning", languages[current_language]['choose_directory'])
         return
     tasks = []
     if var_json.get():
         tasks.append('generate_json')
+    if var_organize.get():
+        tasks.append('organize_folders')
     if var_difficulty.get():
         tasks.append('delete_difficulties')
     if var_pv.get():
         tasks.append('delete_pv')
-    if var_organize.get():
-        tasks.append('organize_folders')
-    if not tasks:
-        messagebox.showwarning(languages[current_language]['error'], languages[current_language]['no_tasks'])
-        return
-    if messagebox.askyesno(languages[current_language]['confirm'], "\n".join([languages[current_language][task] for task in tasks])):
-        threading.Thread(target=run_tasks, args=(directory, tasks, output_text), daemon=True).start()
+    threading.Thread(target=run_tasks, args=(directory, tasks, output_text), daemon=True).start()
+
+
+def choose_directory():
+    global directory
+    directory = filedialog.askdirectory()
+    directory_entry.set(directory)
+
+
+def toggle_language(event=None):
+    global current_language
+    selected_language = lang_combobox.get()
+    current_language = 'en' if selected_language == 'English' else 'zh'
+    update_labels()
+
+
+def update_labels():
+    directory_label.config(text=languages[current_language]['choose_directory'])
+    json_check.config(text=languages[current_language]['generate_json'])
+    organize_check.config(text=languages[current_language]['organize_folders'])
+    difficulty_check.config(text=languages[current_language]['delete_difficulties'])
+    pv_check.config(text=languages[current_language]['delete_pv'])
+    start_button.config(text=languages[current_language]['start'])
+
 
 root = tk.Tk()
-root.title("AstroDX Tools")
-root.geometry("600x800")
-load_sun_valley_theme(root)
+root.title("AstroDX Manager")
+root.geometry("1000x600")
+sv_ttk.set_theme("light")
 
-frame = ttk.Frame(root)
-frame.pack(pady=20)
+# Main Layout
+main_frame = ttk.Frame(root)
+main_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
-font_large = ("Microsoft YaHei", 14)
-font_small = ("Microsoft YaHei", 10)
+# Left Panel
+left_frame = ttk.Frame(main_frame, width=300)
+left_frame.pack(side="left", fill="y", padx=10, pady=10)
 
+# Directory Selection
+directory_entry = tk.StringVar()
+directory_label = ttk.Label(left_frame, text=languages[current_language]['choose_directory'], font=("Microsoft YaHei", 12))
+directory_label.grid(row=0, column=0, pady=10, sticky="w")
+directory_box = ttk.Entry(left_frame, textvariable=directory_entry, font=("Microsoft YaHei", 10), width=25)
+directory_box.grid(row=1, column=0, pady=5, sticky="w")
+directory_button = ttk.Button(left_frame, text="Browse", command=choose_directory)
+directory_button.grid(row=1, column=1, padx=5)
+
+# Task Options
 var_json = tk.BooleanVar(value=True)
 var_organize = tk.BooleanVar(value=True)
 var_difficulty = tk.BooleanVar()
 var_pv = tk.BooleanVar()
 
-json_check = ttk.Checkbutton(frame, text=languages['en']['generate_json'], variable=var_json)
-json_check.pack(anchor='w')
-organize_check = ttk.Checkbutton(frame, text=languages['en']['organize_folders'], variable=var_organize)
-organize_check.pack(anchor='w')
-difficulty_check = ttk.Checkbutton(frame, text=languages['en']['delete_difficulties'], variable=var_difficulty)
-difficulty_check.pack(anchor='w')
-pv_check = ttk.Checkbutton(frame, text=languages['en']['delete_pv'], variable=var_pv)
-pv_check.pack(anchor='w')
-
-entry_button = ttk.Button(root, text=languages['en']['choose_directory'], command=execute_functions)
-entry_button.pack(pady=10)
-
-lang_combobox = ttk.Combobox(root, values=["English", "中文"], state="readonly", font=font_small)
-lang_combobox.set("English")
-lang_combobox.pack(pady=10)
-lang_combobox.bind("<<ComboboxSelected>>", toggle_language)
-
-output_text = tk.Text(root, wrap="word", height=10, font=font_small)
-output_text.pack(fill="both", expand=True, padx=20, pady=10)
-
-entry_button.configure(style="Large.TButton")
-entry_button.pack(pady=20)
-
 style = ttk.Style()
-style.configure("Large.TButton", font=font_large, padding=10)
-style.configure("Large.TCheckbutton", font=font_large)
+style.configure("Large.TCheckbutton", font=("Microsoft YaHei", 12), padding=5)
 
-json_check.configure(style="Large.TCheckbutton")
-organize_check.configure(style="Large.TCheckbutton")
-difficulty_check.configure(style="Large.TCheckbutton")
-pv_check.configure(style="Large.TCheckbutton")
+json_check = ttk.Checkbutton(left_frame, text=languages[current_language]['generate_json'], variable=var_json, style="Large.TCheckbutton")
+json_check.grid(row=2, column=0, pady=5, sticky="w")
+organize_check = ttk.Checkbutton(left_frame, text=languages[current_language]['organize_folders'], variable=var_organize, style="Large.TCheckbutton")
+organize_check.grid(row=3, column=0, pady=5, sticky="w")
+difficulty_check = ttk.Checkbutton(left_frame, text=languages[current_language]['delete_difficulties'], variable=var_difficulty, style="Large.TCheckbutton")
+difficulty_check.grid(row=4, column=0, pady=5, sticky="w")
+pv_check = ttk.Checkbutton(left_frame, text=languages[current_language]['delete_pv'], variable=var_pv, style="Large.TCheckbutton")
+pv_check.grid(row=5, column=0, pady=5, sticky="w")
+
+# Start Button
+style.configure("Large.TButton", font=("Microsoft YaHei", 14), padding=10)
+start_button = ttk.Button(left_frame, text=languages[current_language]['start'], command=execute_tasks, style="Large.TButton", width=15)
+start_button.grid(row=6, column=0, pady=30, columnspan=2)
+
+# Language Combobox
+lang_combobox = ttk.Combobox(root, values=["English", "中文"], state="readonly", width=8, font=("Microsoft YaHei", 10))
+lang_combobox.set("English" if current_language == "en" else "中文")
+lang_combobox.bind("<<ComboboxSelected>>", toggle_language)
+lang_combobox.place(relx=0.01, rely=0.97, anchor="sw")
+
+# Right Panel - Log Output with Scrollbar
+right_frame = tk.Frame(main_frame, bd=0)  # Set borderwidth to 0
+right_frame.pack(side="right", fill="both", expand=True, padx=10, pady=10)
+
+# Create vertical scrollbar with a thinner design
+scrollbar = ttk.Scrollbar(right_frame, style="TScrollbar")
+scrollbar.pack(side="right", fill="y")
+
+# Create a Text widget for the output, making it read-only
+output_text = tk.Text(right_frame, wrap="word", font=("Microsoft YaHei", 10), height=20, yscrollcommand=scrollbar.set)
+output_text.pack(fill="both", expand=True)
+
+# Set the scrollbar command
+scrollbar.config(command=output_text.yview)
+
+# Custom scrollbar style (adjusting thickness)
+style = ttk.Style()
+style.configure("TScrollbar", gripcount=0, thickness=8)  # Set thickness of scrollbar
+
+
 
 root.mainloop()
