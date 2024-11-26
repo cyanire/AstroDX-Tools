@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout, QHBoxLayout, QCheckBox, QComboBox, QFrame, QFileDialog, QMessageBox, QProgressBar
 )
 from PyQt6.QtCore import Qt, pyqtSignal, QThread
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QIcon
 
 from collections_converter import create_manifest
 from folder_organizer import organize_folders
@@ -242,6 +242,7 @@ class AstroDXTools(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon('logo.ico'))
     window = AstroDXTools()
     window.show()
     sys.exit(app.exec())
