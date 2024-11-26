@@ -39,7 +39,8 @@ You can read this document in English or 中文. / 你可以选择阅读英文�
 ### 4. **合集转换器** (Collections Converter)
 此脚本用于在指定目录中创建 `manifest.json` 文件。
 ## 如何使用
-
+### 1. 下载最新版release直接运行
+### 2. 用python运行：
 1. 克隆或下载该仓库到你的本地机器。
 2. 确保你安装了 Python 3.x。
 3. 运行你想使用的脚本，通过终端执行以下命令：
@@ -62,10 +63,14 @@ You can read this document in English or 中文. / 你可以选择阅读英文�
    python collections_converterr.py
    ```
    或者运行 `GUI` 以选择功能 :
-   
-   ```bash
-   python adxtools_gui.py
-   ```
+   1. 先安装依赖`PyQt6`
+      ```bash
+      pip install PyQt6
+      ```
+   2. 运行`GUI`
+      ```bash
+      python adxtools_gui.py
+      ```
 
 ## 许可证
 
