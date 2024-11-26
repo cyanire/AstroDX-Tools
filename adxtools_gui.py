@@ -100,7 +100,7 @@ class AstroDXTools(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle("AstroDX Tools - v2.3.0")
+        self.setWindowTitle("AstroDX Tools - v2.2.0")
         self.setGeometry(200, 200, 1000, 600)
 
         main_widget = QWidget()
