@@ -36,7 +36,8 @@ The script will automatically move files into the appropriate `levels` and `coll
 This script is designed to create a `manifest.json` file in a specified directory.
 
 ## How to Use
-
+### 1. Download the latest release and run directly
+### 2. Run with Python:
 1. Clone or download the repository to your local machine.
 2. Make sure you have Python 3.x installed.
 3. Run the script you want to use by executing the following command in your terminal:
@@ -59,9 +60,14 @@ This script is designed to create a `manifest.json` file in a specified director
    python collections_converterr.py
    ```
    or running the `GUI` to select function :
-   ```bash
-   python adxtools_gui.py
-   ```
+   1. First, install the dependency `PyQt6`
+      ```bash
+      pip install PyQt6
+      ```
+   2. Run the `GUI`
+      ```bash
+      python adxtools_gui.py
+      ```
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
