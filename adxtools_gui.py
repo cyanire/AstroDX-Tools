@@ -13,6 +13,13 @@ from folder_organizer import organize_folders
 from difficulties_deleter import process_directory
 from pv_deleter import delete_mp4_files
 
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath('.')
+    return os.path.join(base_path, relative_path)
+
 class Worker(QThread):
     progress = pyqtSignal(str)
     finished = pyqtSignal()
@@ -242,7 +249,7 @@ class AstroDXTools(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setWindowIcon(QIcon('logo.ico'))
+    app.setWindowIcon(QIcon(resource_path('logo.ico')))
     window = AstroDXTools()
     window.show()
     sys.exit(app.exec())
