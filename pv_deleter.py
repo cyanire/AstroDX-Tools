@@ -1,22 +1,17 @@
 import os
 
-def log_message(text_widget, message):
-    if text_widget:
-        text_widget.insert("end", message + "\n")
-        text_widget.yview("end")
-    else:
-        print(message)
-
-def delete_mp4_files(directory, text_widget=None):
+def delete_mp4_files(directory, log_callback = None):
     for root, _, files in os.walk(directory):
         for file in files:
             if file.endswith(".mp4"):
-                os.remove(os.path.join(root, file))
-                if text_widget:
-                    log_message(text_widget, f"Deleted: {os.path.join(root, file)}")
+                file_path = os.path.join(root, file)
+                os.remove(file_path)
+                log_message = f"Deleted: {file_path}"
+                if log_callback:
+                    log_callback(log_message)
                 else:
-                    print(f"Deleted: {os.path.join(root, file)}")
+                    print(log_message)
 
 if __name__ == "__main__":
     directory = input("Enter directory: ")
-    delete_mp4_files(directory)  # No text_widget in terminal mode
+    delete_mp4_files(directory)
